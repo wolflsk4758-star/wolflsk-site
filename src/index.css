@@ -26,12 +26,7 @@
     overflow-x: hidden;
   }
 
-  /* Hide default cursor on desktop (custom cursor handles it) */
-  @media (hover: hover) and (pointer: fine) {
-    * {
-      cursor: none !important;
-    }
-  }
+
 
   /* RTL Support - Arabic Font */
   [dir="rtl"] body,
