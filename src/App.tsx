@@ -11,8 +11,9 @@ import {
   Globe, Phone, Mail, Clock, ChevronRight, Star,
   Menu, X, ArrowUp, Send, CheckCircle, Zap, Target, TrendingUp, Crown, MapPin
 } from 'lucide-react';
-import { MagneticButton, AnimatedText, AnimatedParagraph, AnimatedCounter } from './components/ui';
+import { MagneticButton, AnimatedText, AnimatedCounter } from './components/ui';
 import ServicesSection from './components/ServicesSection';
+import CustomCursor from './components/CustomCursor';
 
 // ============================================
 // NAVIGATION COMPONENT
@@ -941,6 +942,7 @@ function ScrollToTop() {
 function AppContent() {
   return (
     <div className="bg-black min-h-screen text-white overflow-x-hidden">
+      <CustomCursor />
       <Navbar />
       <main>
         <HeroSection />
