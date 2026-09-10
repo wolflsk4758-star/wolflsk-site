@@ -8,10 +8,11 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import {
-  Search, Megaphone, MapPin, Share2, Code, Lightbulb,
   Globe, Phone, Mail, Clock, ChevronRight, Star,
-  Menu, X, ArrowUp, Send, CheckCircle, Zap, Target, TrendingUp, Crown
+  Menu, X, ArrowUp, Send, CheckCircle, Zap, Target, TrendingUp, Crown, MapPin
 } from 'lucide-react';
+import { MagneticButton, AnimatedText, AnimatedParagraph, AnimatedCounter } from './components/ui';
+import ServicesSection from './components/ServicesSection';
 
 // ============================================
 // NAVIGATION COMPONENT
@@ -39,7 +40,7 @@ function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
           ? 'bg-black/80 backdrop-blur-xl border-b border-amber-500/20 shadow-2xl shadow-amber-500/5'
@@ -58,7 +59,11 @@ function Navbar() {
               <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center shadow-lg shadow-amber-500/30">
                 <span className="text-black font-black text-lg">W</span>
               </div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full animate-pulse" />
+              <motion.div
+                animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full"
+              />
             </div>
             <div>
               <span className="text-white font-bold text-xl tracking-tight">WOLF</span>
@@ -68,14 +73,18 @@ function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {navLinks.map((link, i) => (
               <motion.a
                 key={link.href}
                 href={link.href}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * i + 0.3 }}
                 whileHover={{ y: -2 }}
-                className="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm font-medium tracking-wide"
+                className="text-gray-300 hover:text-amber-400 transition-colors duration-300 text-sm font-medium tracking-wide relative group"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-amber-400 group-hover:w-full transition-all duration-300" />
               </motion.a>
             ))}
           </div>
@@ -93,17 +102,23 @@ function Navbar() {
               <span>{lang === 'en' ? 'عربي' : 'English'}</span>
             </motion.button>
 
-            {/* CTA Button */}
-            <motion.a
+            {/* Magnetic CTA Button */}
+            <MagneticButton
               href="https://wa.me/962782456543"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(245, 158, 11, 0.3)' }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-full text-sm shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-300"
+              strength={0.4}
             >
-              {t.hero.cta1}
-            </motion.a>
+              <div className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-full text-sm shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-300 relative overflow-hidden">
+                <span className="relative z-10">{t.hero.cta1}</span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '0%' }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
+            </MagneticButton>
           </div>
 
           {/* Mobile Menu Button */}
@@ -126,15 +141,18 @@ function Navbar() {
             className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-amber-500/20"
           >
             <div className="px-4 py-6 space-y-4">
-              {navLinks.map((link) => (
-                <a
+              {navLinks.map((link, i) => (
+                <motion.a
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileOpen(false)}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
                   className="block text-gray-300 hover:text-amber-400 transition-colors py-2 text-lg"
                 >
                   {link.label}
-                </a>
+                </motion.a>
               ))}
               <div className="flex items-center gap-4 pt-4 border-t border-gray-800">
                 <button
@@ -162,10 +180,10 @@ function Navbar() {
 }
 
 // ============================================
-// HERO SECTION
+// HERO SECTION - Enhanced with staggered reveals
 // ============================================
 function HeroSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -213,87 +231,107 @@ function HeroSection() {
       <motion.div style={{ y, opacity }} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial={{ opacity: 0, y: 30, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-8"
         >
-          {t.hero.badge}
+          <motion.span
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+          >
+            🔥
+          </motion.span>
+          {t.hero.badge.replace('🔥 ', '')}
         </motion.div>
 
-        {/* Main Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-4"
-        >
-          {t.hero.title}
-        </motion.h1>
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-8"
-        >
-          <span className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent">
-            {t.hero.titleHighlight}
-          </span>
-        </motion.h2>
+        {/* Main Title - Staggered Word Reveal */}
+        <div className="mb-4">
+          <AnimatedText
+            text={t.hero.title}
+            as="h1"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight"
+            delay={0.4}
+            staggerDelay={0.05}
+          />
+        </div>
+        <div className="mb-8">
+          <AnimatedText
+            text={t.hero.titleHighlight}
+            as="h2"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent"
+            delay={0.8}
+            staggerDelay={0.05}
+          />
+        </div>
 
         {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed"
-        >
-          {t.hero.description}
-        </motion.p>
-
-        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="mb-12"
+        >
+          <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            {t.hero.description}
+          </p>
+        </motion.div>
+
+        {/* CTA Buttons - Magnetic Effect */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
-          <motion.a
+          <MagneticButton
             href="https://wa.me/962782456543"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(245, 158, 11, 0.4)' }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-full text-lg shadow-2xl shadow-amber-500/20 flex items-center gap-2"
+            strength={0.5}
           >
-            {t.hero.cta1}
-            <ChevronRight size={20} />
-          </motion.a>
-          <motion.a
-            href="#services"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 border-2 border-amber-500/30 text-amber-400 font-bold rounded-full text-lg hover:bg-amber-500/10 transition-all duration-300"
-          >
-            {t.hero.cta2}
-          </motion.a>
+            <div className="px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-full text-lg shadow-2xl shadow-amber-500/20 flex items-center gap-2 relative overflow-hidden group">
+              <span className="relative z-10 flex items-center gap-2">
+                {t.hero.cta1}
+                <ChevronRight size={20} className={lang === 'ar' ? 'rotate-180' : ''} />
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-500"
+                initial={{ scale: 0, borderRadius: '100%' }}
+                whileHover={{ scale: 2, borderRadius: '0%' }}
+                transition={{ duration: 0.4 }}
+                style={{ originX: 0.5, originY: 0.5 }}
+              />
+            </div>
+          </MagneticButton>
+          <MagneticButton href="#services" strength={0.3}>
+            <div className="px-8 py-4 border-2 border-amber-500/30 text-amber-400 font-bold rounded-full text-lg hover:bg-amber-500/10 transition-all duration-300">
+              {t.hero.cta2}
+            </div>
+          </MagneticButton>
         </motion.div>
 
         {/* Certification Badges */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
-          <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-green-500/30 transition-all duration-300"
+          >
             <CheckCircle size={20} className="text-green-400" />
             <span className="text-gray-300 text-sm font-medium">{t.hero.badgeGoogle}</span>
-          </div>
-          <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-blue-500/30 transition-all duration-300"
+          >
             <CheckCircle size={20} className="text-blue-400" />
             <span className="text-gray-300 text-sm font-medium">{t.hero.badgeMeta}</span>
-          </div>
+          </motion.div>
         </motion.div>
       </motion.div>
 
@@ -301,7 +339,7 @@ function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
+        transition={{ delay: 2.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
@@ -310,7 +348,7 @@ function HeroSection() {
           className="w-6 h-10 rounded-full border-2 border-amber-500/30 flex items-start justify-center p-2"
         >
           <motion.div
-            animate={{ y: [0, 12, 0] }}
+            animate={{ y: [0, 12, 0], opacity: [1, 0.5, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="w-1.5 h-1.5 bg-amber-400 rounded-full"
           />
@@ -324,8 +362,7 @@ function HeroSection() {
 // ABOUT SECTION
 // ============================================
 function AboutSection() {
-  const { t } = useLanguage();
-  const ref = useRef(null);
+  const { t, lang } = useLanguage();
 
   const features = [
     { icon: <Target size={24} />, title: t.about.feature1Title, desc: t.about.feature1Desc },
@@ -338,25 +375,36 @@ function AboutSection() {
     <section id="about" className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
       
-      <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <span className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block">
+        <div className="text-center mb-20">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6 }}
+            className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block"
+          >
             {t.about.subtitle}
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6">
-            {t.about.title}
-          </h2>
-          <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
-            {t.about.description}
-          </p>
-        </motion.div>
+          </motion.span>
+          <AnimatedText
+            text={t.about.title}
+            as="h2"
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6"
+            delay={0.1}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mt-6"
+          >
+            <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
+              {t.about.description}
+            </p>
+          </motion.div>
+        </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
@@ -365,24 +413,40 @@ function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 text-center"
+            whileHover={{ scale: 1.02, y: -5 }}
+            className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 text-center overflow-hidden group"
           >
-            <div className="text-5xl md:text-6xl font-black text-amber-400 mb-3">
-              {t.about.stat1Value}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-600/0 group-hover:from-amber-500/5 group-hover:to-amber-600/5 transition-all duration-500"
+            />
+            <div className="relative">
+              <AnimatedCounter
+                value={99}
+                suffix="%"
+                className="text-5xl md:text-6xl font-black text-amber-400 mb-3 block"
+              />
+              <p className="text-gray-300 text-lg">{t.about.stat1}</p>
             </div>
-            <p className="text-gray-300 text-lg">{t.about.stat1}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 text-center"
+            whileHover={{ scale: 1.02, y: -5 }}
+            className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 text-center overflow-hidden group"
           >
-            <div className="text-5xl md:text-6xl font-black text-amber-400 mb-3">
-              {t.about.stat2Value}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-600/0 group-hover:from-amber-500/5 group-hover:to-amber-600/5 transition-all duration-500"
+            />
+            <div className="relative">
+              <AnimatedCounter
+                value={500}
+                prefix="+"
+                className="text-5xl md:text-6xl font-black text-amber-400 mb-3 block"
+              />
+              <p className="text-gray-300 text-lg">{t.about.stat2}</p>
             </div>
-            <p className="text-gray-300 text-lg">{t.about.stat2}</p>
           </motion.div>
         </div>
 
@@ -396,93 +460,21 @@ function AboutSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -8, scale: 1.02 }}
-              className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-amber-500/30 transition-all duration-500 group"
+              className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-amber-500/30 transition-all duration-500 group relative overflow-hidden"
             >
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 group-hover:bg-amber-500/20 transition-all duration-300">
-                {feature.icon}
-              </div>
-              <h3 className="text-white font-bold text-lg mb-2">{feature.title}</h3>
-              <p className="text-gray-400 text-sm">{feature.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ============================================
-// SERVICES SECTION
-// ============================================
-function ServicesSection() {
-  const { t } = useLanguage();
-
-  const iconMap: Record<string, React.ReactNode> = {
-    search: <Search size={28} />,
-    megaphone: <Megaphone size={28} />,
-    mapPin: <MapPin size={28} />,
-    share2: <Share2 size={28} />,
-    code: <Code size={28} />,
-    lightbulb: <Lightbulb size={28} />,
-  };
-
-  return (
-    <section id="services" className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black" />
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <span className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block">
-            {t.services.subtitle}
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6">
-            {t.services.title}
-          </h2>
-        </motion.div>
-
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {t.services.items.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="relative group p-8 rounded-2xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 hover:border-amber-500/40 transition-all duration-500 overflow-hidden"
-            >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-amber-600/5 transition-all duration-500 rounded-2xl" />
-              
-              {/* Icon */}
-              <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 flex items-center justify-center text-amber-400 mb-6 group-hover:from-amber-500/30 group-hover:to-amber-600/20 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-amber-500/10">
-                {iconMap[service.icon]}
-              </div>
-
-              {/* Content */}
-              <h3 className="relative text-white font-bold text-xl mb-3 group-hover:text-amber-400 transition-colors duration-300">
-                {service.title}
-              </h3>
-              <p className="relative text-gray-400 text-sm leading-relaxed">
-                {service.description}
-              </p>
-
-              {/* Arrow indicator */}
-              <div className="relative mt-6 flex items-center gap-2 text-amber-400 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-10px] group-hover:translate-x-0">
-                <span className="text-sm font-medium">
-                  {t.services.items[0].title ? '→' : ''}
-                </span>
+              {/* Hover glow */}
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background: 'radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 70%)',
+                }}
+              />
+              <div className="relative">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 group-hover:bg-amber-500/20 transition-all duration-300">
+                  {feature.icon}
+                </div>
+                <h3 className="text-white font-bold text-lg mb-2">{feature.title}</h3>
+                <p className="text-gray-400 text-sm">{feature.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -512,48 +504,63 @@ function TestimonialsSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <span className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block">
+        <div className="text-center mb-20">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block"
+          >
             {t.testimonials.subtitle}
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-            {t.testimonials.title}
-          </h2>
-        </motion.div>
+          </motion.span>
+          <AnimatedText
+            text={t.testimonials.title}
+            as="h2"
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-white"
+            delay={0.1}
+          />
+        </div>
 
         {/* Testimonials Carousel */}
         <div className="relative max-w-4xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 text-center"
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+              className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 text-center relative overflow-hidden"
             >
-              {/* Stars */}
-              <div className="flex items-center justify-center gap-1 mb-6">
-                {[...Array(t.testimonials.items[activeIndex].rating)].map((_, i) => (
-                  <Star key={i} size={20} className="text-amber-400 fill-amber-400" />
-                ))}
-              </div>
+              {/* Background glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-50" />
+              
+              <div className="relative">
+                {/* Stars */}
+                <div className="flex items-center justify-center gap-1 mb-6">
+                  {[...Array(t.testimonials.items[activeIndex].rating)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      <Star size={20} className="text-amber-400 fill-amber-400" />
+                    </motion.div>
+                  ))}
+                </div>
 
-              {/* Quote */}
-              <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 italic">
-                "{t.testimonials.items[activeIndex].text}"
-              </p>
+                {/* Quote */}
+                <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 italic">
+                  "{t.testimonials.items[activeIndex].text}"
+                </p>
 
-              {/* Author */}
-              <div>
-                <p className="text-white font-bold text-lg">{t.testimonials.items[activeIndex].name}</p>
-                <p className="text-amber-400 text-sm">{t.testimonials.items[activeIndex].company}</p>
+                {/* Author */}
+                <div>
+                  <p className="text-white font-bold text-lg">{t.testimonials.items[activeIndex].name}</p>
+                  <p className="text-amber-400 text-sm">{t.testimonials.items[activeIndex].company}</p>
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -561,13 +568,15 @@ function TestimonialsSection() {
           {/* Navigation Dots */}
           <div className="flex items-center justify-center gap-3 mt-8">
             {t.testimonials.items.map((_, index) => (
-              <button
+              <motion.button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                className={`h-3 rounded-full transition-all duration-300 ${
                   index === activeIndex
                     ? 'bg-amber-400 w-8'
-                    : 'bg-gray-600 hover:bg-gray-500'
+                    : 'bg-gray-600 hover:bg-gray-500 w-3'
                 }`}
               />
             ))}
@@ -582,14 +591,13 @@ function TestimonialsSection() {
 // CONTACT SECTION
 // ============================================
 function ContactSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', service: '', message: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Open WhatsApp with the form data
     const text = `New inquiry from ${formData.name}\nService: ${formData.service}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nMessage: ${formData.message}`;
     window.open(`https://wa.me/962782456543?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -601,23 +609,32 @@ function ContactSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <span className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block">
+        <div className="text-center mb-20">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block"
+          >
             {t.contact.subtitle}
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6">
-            {t.contact.title}
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          </motion.span>
+          <AnimatedText
+            text={t.contact.title}
+            as="h2"
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6"
+            delay={0.1}
+          />
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-gray-400 text-lg max-w-2xl mx-auto"
+          >
             {t.contact.description}
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
@@ -630,69 +647,66 @@ function ContactSection() {
             className="space-y-6"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <input
-                  type="text"
-                  placeholder={t.contact.formName}
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
-                  required
-                />
-              </div>
-              <div>
-                <input
-                  type="email"
-                  placeholder={t.contact.formEmail}
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
-                  required
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <input
-                  type="tel"
-                  placeholder={t.contact.formPhone}
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
-                />
-              </div>
-              <div>
-                <select
-                  value={formData.service}
-                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-gray-400 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
-                >
-                  <option value="" className="bg-gray-900">{t.contact.formService}</option>
-                  {t.contact.services.map((service, i) => (
-                    <option key={i} value={service} className="bg-gray-900">{service}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div>
-              <textarea
-                placeholder={t.contact.formMessage}
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300 resize-none"
+              <motion.input
+                whileFocus={{ scale: 1.01 }}
+                type="text"
+                placeholder={t.contact.formName}
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+                required
+              />
+              <motion.input
+                whileFocus={{ scale: 1.01 }}
+                type="email"
+                placeholder={t.contact.formEmail}
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
                 required
               />
             </div>
-            <motion.button
-              type="submit"
-              whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(245, 158, 11, 0.3)' }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-xl text-lg shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2"
-            >
-              <Send size={20} />
-              {t.contact.formSubmit}
-            </motion.button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <motion.input
+                whileFocus={{ scale: 1.01 }}
+                type="tel"
+                placeholder={t.contact.formPhone}
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+              />
+              <motion.select
+                whileFocus={{ scale: 1.01 }}
+                value={formData.service}
+                onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-gray-400 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+              >
+                <option value="" className="bg-gray-900">{t.contact.formService}</option>
+                {t.contact.services.map((service, i) => (
+                  <option key={i} value={service} className="bg-gray-900">{service}</option>
+                ))}
+              </motion.select>
+            </div>
+            <motion.textarea
+              whileFocus={{ scale: 1.01 }}
+              placeholder={t.contact.formMessage}
+              rows={5}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300 resize-none"
+              required
+            />
+            <MagneticButton strength={0.3}>
+              <motion.button
+                type="submit"
+                whileHover={{ boxShadow: '0 0 30px rgba(245, 158, 11, 0.3)' }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-xl text-lg shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2"
+              >
+                <Send size={20} />
+                {t.contact.formSubmit}
+              </motion.button>
+            </MagneticButton>
           </motion.form>
 
           {/* Contact Info */}
@@ -706,47 +720,38 @@ function ContactSection() {
             <div className="p-8 rounded-2xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10">
               <h3 className="text-white font-bold text-xl mb-6">{t.contact.infoTitle}</h3>
               <div className="space-y-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
-                    <Phone size={20} />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">WhatsApp</p>
-                    <p className="text-white font-medium">{t.contact.infoPhone}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
-                    <Mail size={20} />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white font-medium">{t.contact.infoEmail}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
-                    <MapPin size={20} />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Location</p>
-                    <p className="text-white font-medium">{t.contact.infoLocation}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
-                    <Clock size={20} />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Hours</p>
-                    <p className="text-white font-medium">{t.contact.infoHours}</p>
-                  </div>
-                </div>
+                {[
+                  { icon: <Phone size={20} />, label: 'WhatsApp', value: t.contact.infoPhone },
+                  { icon: <Mail size={20} />, label: 'Email', value: t.contact.infoEmail },
+                  { icon: <MapPin size={20} />, label: 'Location', value: t.contact.infoLocation },
+                  { icon: <Clock size={20} />, label: 'Hours', value: t.contact.infoHours },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ x: 5 }}
+                    className="flex items-center gap-4 group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover:bg-amber-500/20 transition-all duration-300">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="text-gray-400 text-sm">{item.label}</p>
+                      <p className="text-white font-medium">{item.value}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
 
             {/* Map Embed */}
-            <div className="rounded-2xl overflow-hidden border border-white/10 h-48">
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              className="rounded-2xl overflow-hidden border border-white/10 h-48"
+            >
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108516.44710659498!2d35.85699675!3d31.9539421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151ca1236b328f3b%3A0x420e285f310c97d0!2sAmman%2C%20Jordan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                 width="100%"
@@ -757,7 +762,7 @@ function ContactSection() {
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Wolf LSK Agency Location"
               />
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -915,9 +920,9 @@ function ScrollToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0 }}
+          initial={{ opacity: 0, scale: 0, rotate: -180 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          exit={{ opacity: 0, scale: 0, rotate: 180 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
