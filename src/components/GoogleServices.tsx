@@ -22,7 +22,7 @@ interface PricingCard {
 const pricingData: PricingCard[] = [
   {
     id: 1,
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop',
+    image: './image/google-business.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
       en: 'Google Business Profile Setup',
@@ -62,7 +62,7 @@ const pricingData: PricingCard[] = [
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
+    image: './image/google-ads.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
       en: 'Google Search & Maps Ads',
@@ -104,7 +104,7 @@ const pricingData: PricingCard[] = [
   },
   {
     id: 3,
-    image: 'https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&h=600&fit=crop',
+    image: './image/google-seo.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
       en: 'SEO Keywords & Research Pack',

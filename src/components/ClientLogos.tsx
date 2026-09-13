@@ -13,12 +13,12 @@ interface ClientLogo {
   alt: { en: string; ar: string };
 }
 
-// Easy to edit: Just update the logo URLs here
+// Easy to edit: Just update the logo file names here
 const clientLogosData: ClientLogo[] = [
   {
     id: 1,
     name: 'Farouj Noman',
-    logo: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=200&fit=crop',
+    logo: './image/client1.png',
     alt: {
       en: 'Farouj Noman - Restaurant Digital Marketing Client Logo - WOLF LSK Agency',
       ar: 'فروج نعمان - شعار عميل التسويق الرقمي للمطاعم - وكالة وولف LSK',
@@ -27,7 +27,7 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 2,
     name: 'Hazem Beauty',
-    logo: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=200&fit=crop',
+    logo: './image/client2.png',
     alt: {
       en: 'Hazem Beauty - Salon Branding Client Logo - WOLF LSK Agency',
       ar: 'حازم بيوتي - شعار عميل تصميم صالون التجميل - وكالة وولف LSK',
@@ -36,7 +36,7 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 3,
     name: 'Tamimi Farm',
-    logo: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&h=200&fit=crop',
+    logo: './image/client3.png',
     alt: {
       en: 'Tamimi Farm - Agricultural Marketing Client Logo - WOLF LSK Agency',
       ar: 'مزرعة التميمي - شعار عميل التسويق الزراعي - وكالة وولف LSK',
@@ -45,7 +45,7 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 4,
     name: 'Oliva Travel',
-    logo: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=200&fit=crop',
+    logo: './image/client4.png',
     alt: {
       en: 'Oliva Travel - Tourism Marketing Client Logo - WOLF LSK Agency',
       ar: 'أوليفا للسفر - شعار عميل التسويق السياحي - وكالة وولف LSK',
@@ -54,7 +54,7 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 5,
     name: 'Tesla Drive',
-    logo: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=200&fit=crop',
+    logo: './image/client5.png',
     alt: {
       en: 'Tesla Drive - Automotive Marketing Client Logo - WOLF LSK Agency',
       ar: 'تيسلا درايف - شعار عميل التسويق للسيارات - وكالة وولف LSK',

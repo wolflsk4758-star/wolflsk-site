@@ -1,14 +1,13 @@
 /**
- * Google Packages Component - Enhanced Google Services Section
- * Features: Google branding, SEO optimized, bilingual support, premium dark theme
+ * SEO Services Packages Component
+ * Features: 3 SEO service cards, bilingual support, premium dark theme
  */
 
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { FcGoogle, FcAdvertising, FcBusinessContact } from 'react-icons/fc';
 
-interface GooglePackage {
+interface SEOPackage {
   id: number;
   icon: React.ReactNode;
   badge: { en: string; ar: string };
@@ -21,24 +20,29 @@ interface GooglePackage {
   image: string;
 }
 
-const googlePackagesData: GooglePackage[] = [
+const seoPackagesData: SEOPackage[] = [
   {
     id: 1,
-    icon: <FcBusinessContact className="w-8 h-8" />,
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop',
+    icon: (
+      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6v6l4 2" />
+      </svg>
+    ),
+    image: './image/seo-website.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
-      en: 'Google Business Profile Setup',
-      ar: 'إعداد ملف نشاطك التجاري على جوجل',
+      en: 'Website SEO Optimization',
+      ar: 'تحسين الـ SEO للمواقع',
     },
     subtitle: {
-      en: 'Verified & Optimized',
-      ar: 'موثق ومحسّن',
+      en: 'On-Page & Technical SEO',
+      ar: 'تحسين داخلي وتقني',
     },
-    price: 'JOD 40',
+    price: 'JOD 150',
     billingCycle: {
-      en: 'per profile (one-time)',
-      ar: 'لكل ملف (لمرة واحدة)',
+      en: 'per month',
+      ar: 'شهرياً',
     },
     buttonText: {
       en: 'More info',
@@ -46,40 +50,49 @@ const googlePackagesData: GooglePackage[] = [
     },
     features: {
       en: [
-        'Complete business profile creation',
-        'Category selection & optimization',
-        'Business hours & contact setup',
-        'Photo upload (up to 5 images)',
-        'Verification assistance',
-        'Basic SEO optimization',
+        'Complete technical SEO audit',
+        'On-page optimization (meta tags, headers, content)',
+        'Site speed optimization',
+        'Mobile responsiveness improvement',
+        'XML sitemap creation',
+        'Robots.txt optimization',
+        'Schema markup implementation',
+        'Internal linking strategy',
       ],
       ar: [
-        'إنشاء ملف نشاط تجاري كامل',
-        'اختيار الفئة والتحسين',
-        'إعداد ساعات العمل ومعلومات الاتصال',
-        'رفع الصور (حتى 5 صور)',
-        'مساعدة في التوثيق',
-        'تحسين SEO أساسي',
+        'تدقيق SEO تقني شامل',
+        'تحسين داخلي (وسوم ميتا، رؤوس، محتوى)',
+        'تحسين سرعة الموقع',
+        'تحسين الاستجابة للجوال',
+        'إنشاء خريطة الموقع XML',
+        'تحسين ملف robots.txt',
+        'تطبيق Schema markup',
+        'استراتيجية الربط الداخلي',
       ],
     },
   },
   {
     id: 2,
-    icon: <FcAdvertising className="w-8 h-8" />,
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
+    icon: (
+      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+    image: './image/seo-google-business.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
-      en: 'Google Search & Maps Ads',
-      ar: 'إعلانات بحث وخرائط جوجل',
+      en: 'Google Business Profile SEO',
+      ar: 'تحسين الـ SEO للملفات التجارية على جوجل',
     },
     subtitle: {
-      en: '1 Campaign / 1 Month',
-      ar: 'حملة واحدة / شهر واحد',
+      en: 'Local SEO & Maps Optimization',
+      ar: 'SEO محلي وتحسين الخرائط',
     },
-    price: 'JOD 70',
+    price: 'JOD 100',
     billingCycle: {
-      en: 'per campaign (monthly)',
-      ar: 'لكل حملة (شهرياً)',
+      en: 'per month',
+      ar: 'شهرياً',
     },
     buttonText: {
       en: 'More info',
@@ -87,42 +100,49 @@ const googlePackagesData: GooglePackage[] = [
     },
     features: {
       en: [
-        '1 complete campaign setup',
-        'Keyword research & targeting',
-        'Professional ad copy creation',
-        'Audience targeting & segmentation',
-        'Performance tracking & analytics',
-        '1 month campaign management',
-        'Weekly performance reports',
+        'Google Business Profile optimization',
+        'Local keyword research',
+        'Citation building and NAP consistency',
+        'Customer review management',
+        'Google Maps optimization',
+        'Local content strategy',
+        'Geo-tagged image optimization',
+        'Local link building',
       ],
       ar: [
-        'إعداد حملة واحدة كاملة',
-        'بحث الكلمات المفتاحية والاستهداف',
-        'إنشاء نصوص إعلانية احترافية',
-        'استهداف الجمهور والتقسيم',
-        'تتبع الأداء والتحليلات',
-        'إدارة الحملة لمدة شهر',
-        'تقارير أداء أسبوعية',
+        'تحسين ملف نشاط جوجل التجاري',
+        'بحث الكلمات المفتاحية المحلية',
+        'بناء الاقتباسات واتساق NAP',
+        'إدارة تقييمات العملاء',
+        'تحسين خرائط جوجل',
+        'استراتيجية المحتوى المحلي',
+        'تحسين الصور مع البيانات الجغرافية',
+        'بناء الروابط المحلية',
       ],
     },
   },
   {
     id: 3,
-    icon: <FcGoogle className="w-8 h-8" />,
-    image: 'https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&h=600&fit=crop',
+    icon: (
+      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="11" cy="11" r="8" />
+        <path d="M21 21l-4.35-4.35" />
+      </svg>
+    ),
+    image: './image/seo-advanced.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
-      en: 'SEO Keywords & Research Pack',
-      ar: 'باقة بحث الكلمات المفتاحية وSEO',
+      en: 'Advanced Search Engine SEO',
+      ar: 'تحسين الـ SEO على محركات البحث',
     },
     subtitle: {
-      en: 'GBP + Ads + SEO',
-      ar: 'ملف جوجل + الإعلانات + SEO',
+      en: 'Complete SEO Strategy',
+      ar: 'استراتيجية SEO شاملة',
     },
-    price: 'JOD 130',
+    price: 'JOD 250',
     billingCycle: {
-      en: 'complete package (one-time)',
-      ar: 'باقة كاملة (لمرة واحدة)',
+      en: 'per month',
+      ar: 'شهرياً',
     },
     buttonText: {
       en: 'More info',
@@ -130,30 +150,30 @@ const googlePackagesData: GooglePackage[] = [
     },
     features: {
       en: [
-        'Everything in GBP Setup (JOD 40)',
-        'Everything in Google Ads (JOD 70)',
-        'Advanced keyword research',
-        'Competitor analysis',
-        'Content strategy planning',
-        'Monthly performance reporting',
-        'Priority support',
-        'ROI optimization',
+        'Comprehensive keyword research',
+        'Competitor analysis and strategy',
+        'Content marketing strategy',
+        'Link building campaign',
+        'Advanced technical SEO',
+        'Monthly performance reports',
+        'Conversion rate optimization',
+        'Ongoing SEO monitoring',
       ],
       ar: [
-        'كل شيء في إعداد ملف جوجل (40 دينار)',
-        'كل شيء في إعلانات جوجل (70 دينار)',
-        'بحث متقدم عن الكلمات المفتاحية',
-        'تحليل المنافسين',
-        'تخطيط استراتيجية المحتوى',
+        'بحث شامل عن الكلمات المفتاحية',
+        'تحليل المنافسين والاستراتيجية',
+        'استراتيجية تسويق المحتوى',
+        'حملة بناء الروابط',
+        'SEO تقني متقدم',
         'تقارير أداء شهرية',
-        'دعم ذو أولوية',
-        'تحسين العائد على الاستثمار',
+        'تحسين معدل التحويل',
+        'مراقبة SEO المستمرة',
       ],
     },
   },
 ];
 
-const GooglePackages = () => {
+const SEOServicePackages = () => {
   const { lang } = useLanguage();
 
   const containerVariants = {
@@ -181,12 +201,12 @@ const GooglePackages = () => {
 
   return (
     <section
-      id="google-packages"
+      id="seo-packages"
       className="py-20 px-4 bg-gradient-to-br from-black via-gray-900 to-black"
-      aria-label={lang === 'ar' ? 'باقات خدمات جوجل' : 'Google Services Packages'}
+      aria-label={lang === 'ar' ? 'باقات خدمات السيو' : 'SEO Services Packages'}
     >
       <div className="max-w-7xl mx-auto">
-        {/* Section Header with Google Logo */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -194,16 +214,13 @@ const GooglePackages = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <FcGoogle className="w-12 h-12 md:w-16 md:h-16" />
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-red-500 to-yellow-500 bg-clip-text text-transparent">
-              {lang === 'ar' ? 'باقات خدمات جوجل' : 'Google Services Packages'}
-            </h2>
-          </div>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent mb-4">
+            {lang === 'ar' ? 'باقات خدمات السيو' : 'SEO Services Packages'}
+          </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             {lang === 'ar'
-              ? 'اختر الباقة المناسبة لنمو عملك الرقمي'
-              : 'Choose the right package for your digital business growth'}
+              ? 'ارتقِ بموقعك في نتائج البحث'
+              : 'Elevate your ranking in search results'}
           </p>
         </motion.div>
 
@@ -215,18 +232,18 @@ const GooglePackages = () => {
           viewport={{ once: true, margin: '-100px' }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {googlePackagesData.map((pkg) => (
+          {seoPackagesData.map((pkg) => (
             <motion.article
               key={pkg.id}
               variants={cardVariants}
               whileHover={{ scale: 1.02, y: -5 }}
-              className="group relative bg-gray-900/50 backdrop-blur-lg border border-gray-800 rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all duration-300"
+              className="group relative bg-gray-900/50 backdrop-blur-lg border border-gray-800 rounded-2xl overflow-hidden hover:border-green-500/50 transition-all duration-300"
               style={{
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
               }}
             >
               {/* Hover Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-red-500/0 to-yellow-500/0 group-hover:from-blue-500/5 group-hover:via-red-500/5 group-hover:to-yellow-500/5 transition-all duration-500 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 via-emerald-500/0 to-teal-500/0 group-hover:from-green-500/5 group-hover:via-emerald-500/5 group-hover:to-teal-500/5 transition-all duration-500 pointer-events-none" />
 
               {/* Image Section */}
               <div className="relative h-48 overflow-hidden">
@@ -239,8 +256,8 @@ const GooglePackages = () => {
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
 
-                {/* Google Icon Badge */}
-                <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md rounded-full p-2 border border-white/20">
+                {/* SEO Icon Badge */}
+                <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md rounded-full p-2 border border-white/20 text-green-400">
                   {pkg.icon}
                 </div>
 
@@ -256,7 +273,7 @@ const GooglePackages = () => {
               <div className="p-6 space-y-4">
                 {/* Title & Subtitle */}
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-green-400 transition-colors">
                     {lang === 'ar' ? pkg.title.ar : pkg.title.en}
                   </h3>
                   <p className="text-sm text-gray-400">
@@ -296,7 +313,7 @@ const GooglePackages = () => {
                         transition={{ delay: index * 0.05 }}
                         className="flex items-start gap-3"
                       >
-                        <Check className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-gray-300">{feature}</span>
                       </motion.li>
                     )
@@ -326,10 +343,13 @@ const GooglePackages = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 via-red-500 to-yellow-500 text-white font-bold rounded-full shadow-2xl hover:shadow-blue-500/50 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white font-bold rounded-full shadow-2xl hover:shadow-green-500/50 transition-all duration-300"
           >
-            <FcGoogle className="w-6 h-6" />
-            {lang === 'ar' ? 'تواصل مع خبير جوجل' : 'Contact Google Expert'}
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+            {lang === 'ar' ? 'تواصل مع خبير SEO' : 'Contact SEO Expert'}
           </motion.a>
         </motion.div>
       </div>
@@ -337,4 +357,4 @@ const GooglePackages = () => {
   );
 };
 
-export default GooglePackages;
+export default SEOServicePackages;
