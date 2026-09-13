@@ -261,14 +261,17 @@ const GoogleServices = () => {
                 </div>
 
                 {/* More Info Button */}
-                <motion.button
+                <motion.a
+                  href="https://wa.me/962782456543"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-red-500/50"
+                  className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-red-500/50 block text-center"
                   aria-label={lang === 'ar' ? card.buttonText.ar : card.buttonText.en}
                 >
                   {lang === 'ar' ? card.buttonText.ar : card.buttonText.en}
-                </motion.button>
+                </motion.a>
 
                 {/* Features Checklist */}
                 <ul className="space-y-3 pt-2">

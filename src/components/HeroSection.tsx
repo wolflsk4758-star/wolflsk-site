@@ -8,6 +8,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 import { MagneticButton, AnimatedText } from './ui';
 import { ChevronRight, CheckCircle } from 'lucide-react';
+import { FaMeta } from 'react-icons/fa6';
+import { SiGoogleads } from 'react-icons/si';
 import { useMemo } from 'react';
 
 // ============================================
@@ -320,26 +322,37 @@ export default function HeroSection() {
           </MagneticButton>
         </motion.div>
 
-        {/* Certification Badges */}
+        {/* Certification Badges - Enhanced with Brand Logos */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
+          {/* Google Ads Certified Badge */}
           <motion.div
             whileHover={{ scale: 1.05, y: -2 }}
-            className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-green-500/30 transition-all duration-300"
+            className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-green-500/40 transition-all duration-300 relative overflow-hidden"
           >
-            <CheckCircle size={20} className="text-green-400" />
-            <span className="text-gray-300 text-sm font-medium">{t.hero.badgeGoogle}</span>
+            {/* Subtle glow on hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <CheckCircle size={20} className="text-green-400 relative z-10" />
+            {/* Google Ads Logo */}
+            <SiGoogleads size={22} className="relative z-10" style={{ color: '#FBBC04' }} />
+            <span className="text-gray-300 text-sm font-medium relative z-10">{t.hero.badgeGoogle}</span>
           </motion.div>
+
+          {/* Meta Business Certified Badge */}
           <motion.div
             whileHover={{ scale: 1.05, y: -2 }}
-            className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-blue-500/30 transition-all duration-300"
+            className="group flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-blue-500/40 transition-all duration-300 relative overflow-hidden"
           >
-            <CheckCircle size={20} className="text-blue-400" />
-            <span className="text-gray-300 text-sm font-medium">{t.hero.badgeMeta}</span>
+            {/* Subtle glow on hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <CheckCircle size={20} className="text-blue-400 relative z-10" />
+            {/* Meta Logo */}
+            <FaMeta size={20} className="relative z-10" style={{ color: '#0866FF' }} />
+            <span className="text-gray-300 text-sm font-medium relative z-10">{t.hero.badgeMeta}</span>
           </motion.div>
         </motion.div>
       </motion.div>

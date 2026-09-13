@@ -203,7 +203,7 @@ const SEOServicePackages = () => {
     <section
       id="seo-packages"
       className="py-20 px-4 bg-gradient-to-br from-black via-gray-900 to-black"
-      aria-label={lang === 'ar' ? 'باقات خدمات السيو' : 'SEO Services Packages'}
+      aria-label={lang === 'ar' ? 'باقات خدمات ال SEO' : 'SEO Services Packages'}
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
@@ -215,7 +215,7 @@ const SEOServicePackages = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent mb-4">
-            {lang === 'ar' ? 'باقات خدمات السيو' : 'SEO Services Packages'}
+            {lang === 'ar' ? 'باقات خدمات ال SEO' : 'SEO Services Packages'}
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             {lang === 'ar'
@@ -292,14 +292,17 @@ const SEOServicePackages = () => {
                 </div>
 
                 {/* More Info Button */}
-                <motion.button
+                <motion.a
+                  href="https://wa.me/962782456543"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-red-500/50"
+                  className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-colors duration-200 shadow-lg hover:shadow-red-500/50 block text-center"
                   aria-label={lang === 'ar' ? pkg.buttonText.ar : pkg.buttonText.en}
                 >
                   {lang === 'ar' ? pkg.buttonText.ar : pkg.buttonText.en}
-                </motion.button>
+                </motion.a>
 
                 {/* Features Checklist */}
                 <ul className="space-y-3 pt-2">
