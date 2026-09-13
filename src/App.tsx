@@ -15,6 +15,7 @@ import { MagneticButton, AnimatedText, AnimatedCounter } from './components/ui';
 import ServicesSection from './components/ServicesSection';
 import HeroSection from './components/HeroSection';
 import GoogleServices from './components/GoogleServices';
+import PortfolioFeedback from './components/PortfolioFeedback';
 import CustomCursor from './components/CustomCursor';
 
 // ============================================
@@ -772,6 +773,7 @@ function AppContent() {
         <AboutSection />
         <ServicesSection />
         <GoogleServices />
+        <PortfolioFeedback />
         <TestimonialsSection />
         <ContactSection />
       </main>
