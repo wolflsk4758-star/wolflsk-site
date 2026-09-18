@@ -29,7 +29,8 @@ const seoPackagesData: SEOPackage[] = [
         <path d="M12 6v6l4 2" />
       </svg>
     ),
-    image: './image/seo-website.jpg',
+    // تم التعديل هنا ليطابق اسم الصورة في مجلد public
+    image: '/website seo optimization.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
       en: 'Website SEO Optimization',
@@ -79,7 +80,8 @@ const seoPackagesData: SEOPackage[] = [
         <circle cx="12" cy="10" r="3" />
       </svg>
     ),
-    image: './image/seo-google-business.jpg',
+    // تم التعديل هنا ليطابق اسم الصورة في مجلد public
+    image: '/google business profile seo.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
       en: 'Google Business Profile SEO',
@@ -129,7 +131,8 @@ const seoPackagesData: SEOPackage[] = [
         <path d="M21 21l-4.35-4.35" />
       </svg>
     ),
-    image: './image/seo-advanced.jpg',
+    // تم التعديل هنا ليطابق اسم الصورة في مجلد public
+    image: '/advanced search engine seo.jpg',
     badge: { en: 'Popular', ar: 'الأكثر شعبية' },
     title: {
       en: 'Advanced Search Engine SEO',

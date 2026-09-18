@@ -11,6 +11,7 @@ interface ClientLogo {
   name: string;
   logo: string;
   alt: { en: string; ar: string };
+  needsInversion?: boolean; // خاصية جديدة: إذا كانت true بتحول اللوجو الغامق لأبيض
 }
 
 // Easy to edit: Just update the logo file names here
@@ -18,7 +19,7 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 1,
     name: 'Farouj Noman',
-    logo: './image/client1.png',
+    logo: '/farouj noman.jpg',
     alt: {
       en: 'Farouj Noman - Restaurant Digital Marketing Client Logo - WOLF LSK Agency',
       ar: 'فروج نعمان - شعار عميل التسويق الرقمي للمطاعم - وكالة وولف LSK',
@@ -27,16 +28,18 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 2,
     name: 'Hazem Beauty',
-    logo: './image/client2.png',
+    logo: '/hazem beauty.webp',
     alt: {
       en: 'Hazem Beauty - Salon Branding Client Logo - WOLF LSK Agency',
       ar: 'حازم بيوتي - شعار عميل تصميم صالون التجميل - وكالة وولف LSK',
     },
+    // إذا كان لوجو حازم بيوتي غامق ومش واضح، خليها true
+    needsInversion: false, 
   },
   {
     id: 3,
     name: 'Tamimi Farm',
-    logo: './image/client3.png',
+    logo: '/tamimi farm.jpeg',
     alt: {
       en: 'Tamimi Farm - Agricultural Marketing Client Logo - WOLF LSK Agency',
       ar: 'مزرعة التميمي - شعار عميل التسويق الزراعي - وكالة وولف LSK',
@@ -45,7 +48,7 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 4,
     name: 'Oliva Travel',
-    logo: './image/client4.png',
+    logo: '/oliva travel.jpg',
     alt: {
       en: 'Oliva Travel - Tourism Marketing Client Logo - WOLF LSK Agency',
       ar: 'أوليفا للسفر - شعار عميل التسويق السياحي - وكالة وولف LSK',
@@ -54,11 +57,13 @@ const clientLogosData: ClientLogo[] = [
   {
     id: 5,
     name: 'Tesla Drive',
-    logo: './image/client5.png',
+    logo: '/tesla drive.jpeg',
     alt: {
       en: 'Tesla Drive - Automotive Marketing Client Logo - WOLF LSK Agency',
       ar: 'تيسلا درايف - شعار عميل التسويق للسيارات - وكالة وولف LSK',
     },
+    // تفعيل القلب للأبيض لأن اللوجو بالصورة كان أسود ومختفي
+    needsInversion: true, 
   },
 ];
 
@@ -115,12 +120,18 @@ const ClientLogos = () => {
               <motion.div
                 key={`${client.id}-${index}`}
                 whileHover={{ scale: 1.1 }}
-                className="flex-shrink-0 w-48 h-24 bg-gray-800/50 backdrop-blur-lg rounded-xl border border-gray-700 hover:border-amber-500/50 transition-all duration-300 flex items-center justify-center p-4"
+                // تم تعديل الـ padding من p-4 إلى p-2 لإعطاء مساحة أكبر للصورة
+                className="flex-shrink-0 w-48 h-24 bg-gray-800/50 backdrop-blur-lg rounded-xl border border-gray-700 hover:border-amber-500/50 transition-all duration-300 flex items-center justify-center p-2"
               >
                 <img
                   src={client.logo}
                   alt={lang === 'ar' ? client.alt.ar : client.alt.en}
-                  className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                  // تم استخدام w-full h-full مع شرط inversion للوجوهات الغامقة
+                  className={`w-full h-full object-contain transition-all duration-300 ${
+                    client.needsInversion
+                      ? 'brightness-0 invert opacity-80 hover:opacity-100'
+                      : 'grayscale hover:grayscale-0'
+                  }`}
                   loading="lazy"
                   width={192}
                   height={96}

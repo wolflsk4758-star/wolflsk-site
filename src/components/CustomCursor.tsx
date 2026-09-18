@@ -1,9 +1,3 @@
-/**
- * Custom Cursor Component
- * Features: Glowing dot, trailing circle, click ripple effect, hover state changes
- * Uses Framer Motion for smooth physics-based following
- */
-
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useCallback } from 'react';
 
@@ -13,12 +7,42 @@ interface Ripple {
   y: number;
 }
 
+// قائمة الأسماء والصور المقابلة لها (محدثة بناءً على مجلد public)
+const nameToImageMap: Record<string, string> = {
+  // العيادات والمراكز الصحية
+  "dental clinic": "/dental clinic campaing design.png",
+  "medical center": "/medical center promo.jpg",
+  "hazem beauty": "/hazem beauty.webp",
+  "jakjan": "/hazem beauty salon branding.png", // تم ربطها بملف صالون حازم أو جاكجان حسب المتوفر
+  
+  // الشركات والمتاجر الإلكترونية
+  "online store": "/online store campaign.png",
+  "raheeq": "/seo keywords & research packjng.jpg", // أو أي منتج مناسب
+  "jumana library": "/educational platform ad.png",
+  "gibraltar farm": "/tamimi farm.jpeg",
+  "tamimi farm": "/tamimi farm.jpeg",
+  
+  // المطاعم والسياحة
+  "farouj noman": "/farouj noman.jpg",
+  "oliva travel": "/oliva travel.jpg",
+  "riva suites": "/property marketing design.png",
+  
+  // التقنية والسيارات
+  "tesla drive": "/tesla drive.jpeg",
+  "saed tesla": "/tesla drive.jpeg",
+  "website seo": "/website seo optimization.jpg",
+  "google business": "/google business profile setup.jpg",
+};
+
 export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // حالة الصورة الحالية المعروضة
+  const [hoverImage, setHoverImage] = useState<string | null>(null);
 
   // Motion values for cursor position
   const cursorX = useMotionValue(-100);
@@ -59,13 +83,36 @@ export default function CustomCursor() {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    // Hover detection for interactive elements
+    // Hover detection for interactive elements and names/images
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isInteractive = target.closest(
         'a, button, [role="button"], input, textarea, select, .cursor-hover'
       );
       setIsHovering(!!isInteractive);
+
+      // البحث عن اسم أو صورة في العنصر الذي يمر عليه الماوس
+      const namedElement = target.closest('[data-name], [data-image]') as HTMLElement;
+      if (namedElement) {
+        const imageAttr = namedElement.getAttribute('data-image');
+        const nameAttr = namedElement.getAttribute('data-name')?.toLowerCase();
+
+        if (imageAttr) {
+          setHoverImage(imageAttr);
+        } else if (nameAttr) {
+          // محاولة المطابقة المباشرة أو الجزئية مع أسماء المفاتيح
+          const matchedKey = Object.keys(nameToImageMap).find(key => nameAttr.includes(key));
+          if (matchedKey) {
+            setHoverImage(nameToImageMap[matchedKey]);
+          } else {
+            setHoverImage(null);
+          }
+        } else {
+          setHoverImage(null);
+        }
+      } else {
+        setHoverImage(null);
+      }
     };
 
     // Click ripple effect
@@ -158,6 +205,33 @@ export default function CustomCursor() {
             ))}
           </motion.div>
         ))}
+      </AnimatePresence>
+
+      {/* Preview Image on Hovering Names */}
+      <AnimatePresence>
+        {hoverImage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.6 }}
+            transition={{ duration: 0.2 }}
+            className="fixed pointer-events-none z-[9997] overflow-hidden rounded-xl shadow-2xl border border-amber-500/40"
+            style={{
+              x: outerXSpring,
+              y: outerYSpring,
+              translateX: '24px',
+              translateY: '-50%',
+              width: '180px',
+              height: '120px',
+            }}
+          >
+            <img
+              src={hoverImage}
+              alt="Hover preview"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* Outer trailing circle */}

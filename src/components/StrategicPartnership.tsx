@@ -146,7 +146,7 @@ const StrategicPartnership = () => {
           className="mb-12"
         >
           <img
-            src="./image/ensany-partnership.jpg"
+            src="/wolf lsk and ensany global partnership.jpe"
             alt="WOLF LSK and Ensany Global Partnership"
             className="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl shadow-green-900/50 border border-green-500/30"
             loading="lazy"

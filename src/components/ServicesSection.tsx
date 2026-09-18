@@ -709,117 +709,92 @@ export default function ServicesSection() {
       />
       <motion.div
         animate={{ x: [0, -80, 0], y: [0, 60, 0] }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl"
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"
       />
 
+      {/* Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-20">
-          <motion.span
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-6"
           >
-            {lang === 'ar' ? 'أسلحتنا الرقمية' : 'Our Digital Arsenal'}
-          </motion.span>
+            {lang === 'ar' ? 'خدماتنا المتميزة' : 'Our Premium Services'}
+          </motion.div>
           <AnimatedText
-            text={lang === 'ar' ? 'حلول تسويقية متكاملة' : 'Integrated Marketing Solutions'}
+            text={lang === 'ar' ? 'حلول رقمية متكاملة لنمو أعمالك' : 'Integrated Digital Solutions for Your Growth'}
             as="h2"
-            className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6"
-            delay={0.1}
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6"
           />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-gray-400 text-lg max-w-2xl mx-auto"
+            transition={{ delay: 0.2 }}
+            className="text-xl text-gray-400"
           >
             {lang === 'ar'
-              ? 'اضغط على أي خدمة لاكتشاف تفاصيلها وخدماتها الفرعية'
-              : 'Click any service to discover its details and sub-services'}
+              ? 'نقدم مجموعة متكاملة من الخدمات التسويقية والبرمجية المصممة خصيصاً لتلبية احتياجاتك وتحقيق أهدافك بأعلى معايير الجودة.'
+              : 'We offer a complete suite of marketing and development services tailored to meet your needs and achieve your goals with the highest quality standards.'}
           </motion.p>
         </div>
 
-        {/* Services Grid - 6 Main Cards */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {servicesData.map((service, index) => (
             <motion.div
               key={service.id}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              onClick={() => setSelectedService(service)}
+              className="h-full cursor-pointer"
             >
-              <TiltCard
-                className="h-full cursor-hover"
-                tiltAmount={8}
-                onClick={() => setSelectedService(service)}
-              >
+              <TiltCard className="h-full">
                 <div
-                  className="relative p-8 rounded-2xl group h-full overflow-hidden"
+                  className="h-full relative p-8 rounded-3xl overflow-hidden group flex flex-col"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.05)',
                   }}
                 >
-                  {/* Background gradient */}
-                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient} opacity-30 group-hover:opacity-60 transition-opacity duration-500`} />
-
-                  {/* Animated border glow on hover */}
+                  {/* Hover Effects */}
                   <motion.div
-                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
-                      boxShadow: `inset 0 0 30px ${service.glowColor}40, 0 0 30px ${service.glowColor}40`,
+                      background: `radial-gradient(circle at 50% 0%, ${service.glowColor}20 0%, transparent 70%)`,
                     }}
                   />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
                   {/* Content */}
-                  <div className="relative z-10">
-                    {/* Icon */}
-                    <motion.div
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 text-white"
+                  <div className="relative z-10 flex-grow flex flex-col">
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-6 transform group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300"
                       style={{
-                        background: `linear-gradient(135deg, ${service.glowColor}40, transparent)`,
-                        border: `1px solid ${service.glowColor}60`,
+                        background: `linear-gradient(135deg, ${service.glowColor}, transparent)`,
+                        border: `1px solid ${service.glowColor}50`,
                       }}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: 'spring', stiffness: 300 }}
                     >
                       <ServiceIcon type={service.icon} className="w-8 h-8" />
-                    </motion.div>
+                    </div>
 
-                    {/* Title */}
-                    <h3 className="text-white font-bold text-xl mb-2 group-hover:text-amber-400 transition-colors duration-300">
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors">
                       {lang === 'ar' ? service.titleAr : service.title}
                     </h3>
-
-                    {/* Subtitle */}
-                    <p className="text-amber-400/80 text-sm font-medium mb-3">
-                      {lang === 'ar' ? service.subtitleAr : service.subtitle}
-                    </p>
-
-                    {/* Description */}
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                    
+                    <p className="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">
                       {lang === 'ar' ? service.descriptionAr : service.description}
                     </p>
 
-                    {/* Sub-services count badge */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">
-                        {service.subServices.length} {lang === 'ar' ? 'خدمات فرعية' : 'sub-services'}
-                      </span>
-                      <motion.div
-                        className="flex items-center gap-1 text-amber-400 text-sm font-medium"
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
-                        <span>{lang === 'ar' ? 'اكتشف المزيد' : 'Explore'}</span>
-                        <ChevronRight size={16} className={lang === 'ar' ? 'rotate-180' : ''} />
-                      </motion.div>
+                    <div className="flex items-center gap-2 text-amber-500 font-medium group-hover:gap-4 transition-all mt-auto">
+                      <span>{lang === 'ar' ? 'عرض التفاصيل' : 'View Details'}</span>
+                      <ChevronRight size={18} className={lang === 'ar' ? 'rotate-180' : ''} />
                     </div>
                   </div>
                 </div>
@@ -827,27 +802,9 @@ export default function ServicesSection() {
             </motion.div>
           ))}
         </div>
-
-        {/* SEO: Hidden text for crawlers */}
-        <div className="sr-only">
-          {servicesData.map((service) => (
-            <div key={service.id}>
-              <h3>{service.title} - {service.titleAr}</h3>
-              <p>{service.description}</p>
-              <p>{service.descriptionAr}</p>
-              <ul>
-                {service.subServices.map((sub, i) => (
-                  <li key={i}>
-                    <strong>{sub.name}</strong> - {sub.nameAr}: {sub.description} / {sub.descriptionAr}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Glassmorphism Modal */}
+      {/* Modal Integration */}
       <AnimatePresence>
         {selectedService && (
           <ServiceModal

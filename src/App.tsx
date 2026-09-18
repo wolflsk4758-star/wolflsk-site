@@ -6,10 +6,11 @@
 
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Globe, Phone, Mail, Clock, Star,
-  Menu, X, ArrowUp, Send, Zap, Target, TrendingUp, Crown, MapPin
+  Menu, X, Send, Zap, Target, TrendingUp, Crown, MapPin,
+  Youtube, MessageCircle, Instagram
 } from 'lucide-react';
 import { MagneticButton, AnimatedText, AnimatedCounter } from './components/ui';
 import ServicesSection from './components/ServicesSection';
@@ -22,7 +23,7 @@ import StrategicPartnership from './components/StrategicPartnership';
 import CustomCursor from './components/CustomCursor';
 
 // ============================================
-// NAVIGATION COMPONENT
+// NAVIGATION COMPONENT (مع إضافة الاسم)
 // ============================================
 function Navbar() {
   const { lang, setLang, t } = useLanguage();
@@ -56,7 +57,7 @@ function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo & Name */}
           <motion.a
             href="#home"
             whileHover={{ scale: 1.05 }}
@@ -72,9 +73,12 @@ function Navbar() {
                 className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full"
               />
             </div>
-            <div>
-              <span className="text-white font-bold text-xl tracking-tight">WOLF</span>
-              <span className="text-amber-400 font-bold text-xl"> LSK</span>
+            <div className="flex flex-col">
+              <div>
+                <span className="text-white font-bold text-xl tracking-tight">WOLF</span>
+                <span className="text-amber-400 font-bold text-xl"> LSK</span>
+              </div>
+              <span className="text-gray-400 text-xs font-medium tracking-widest uppercase">By Laith</span>
             </div>
           </motion.a>
 
@@ -98,7 +102,6 @@ function Navbar() {
 
           {/* Language Switcher & CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Language Toggle */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -109,7 +112,6 @@ function Navbar() {
               <span>{lang === 'en' ? 'عربي' : 'English'}</span>
             </motion.button>
 
-            {/* Magnetic CTA Button */}
             <MagneticButton
               href="https://wa.me/962782456543"
               target="_blank"
@@ -169,14 +171,6 @@ function Navbar() {
                   <Globe size={16} />
                   <span>{lang === 'en' ? 'عربي' : 'English'}</span>
                 </button>
-                <a
-                  href="https://wa.me/962782456543"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-full text-sm"
-                >
-                  {t.hero.cta1}
-                </a>
               </div>
             </div>
           </motion.div>
@@ -190,7 +184,7 @@ function Navbar() {
 // ABOUT SECTION
 // ============================================
 function AboutSection() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
 
   const features = [
     { icon: <Target size={24} />, title: t.about.feature1Title, desc: t.about.feature1Desc },
@@ -204,7 +198,6 @@ function AboutSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-20">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -234,7 +227,6 @@ function AboutSection() {
           </motion.div>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -244,15 +236,8 @@ function AboutSection() {
             whileHover={{ scale: 1.02, y: -5 }}
             className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 text-center overflow-hidden group"
           >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-600/0 group-hover:from-amber-500/5 group-hover:to-amber-600/5 transition-all duration-500"
-            />
             <div className="relative">
-              <AnimatedCounter
-                value={99}
-                suffix="%"
-                className="text-5xl md:text-6xl font-black text-amber-400 mb-3 block"
-              />
+              <AnimatedCounter value={99} suffix="%" className="text-5xl md:text-6xl font-black text-amber-400 mb-3 block" />
               <p className="text-gray-300 text-lg">{t.about.stat1}</p>
             </div>
           </motion.div>
@@ -264,21 +249,13 @@ function AboutSection() {
             whileHover={{ scale: 1.02, y: -5 }}
             className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 text-center overflow-hidden group"
           >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-600/0 group-hover:from-amber-500/5 group-hover:to-amber-600/5 transition-all duration-500"
-            />
             <div className="relative">
-              <AnimatedCounter
-                value={500}
-                prefix="+"
-                className="text-5xl md:text-6xl font-black text-amber-400 mb-3 block"
-              />
+              <AnimatedCounter value={500} prefix="+" className="text-5xl md:text-6xl font-black text-amber-400 mb-3 block" />
               <p className="text-gray-300 text-lg">{t.about.stat2}</p>
             </div>
           </motion.div>
         </div>
 
-        {/* Features Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <motion.div
@@ -290,13 +267,6 @@ function AboutSection() {
               whileHover={{ y: -8, scale: 1.02 }}
               className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-amber-500/30 transition-all duration-500 group relative overflow-hidden"
             >
-              {/* Hover glow */}
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background: 'radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 70%)',
-                }}
-              />
               <div className="relative">
                 <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 group-hover:bg-amber-500/20 transition-all duration-300">
                   {feature.icon}
@@ -331,26 +301,18 @@ function TestimonialsSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-950 to-black" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-20">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
             className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block"
           >
             {t.testimonials.subtitle}
           </motion.span>
-          <AnimatedText
-            text={t.testimonials.title}
-            as="h2"
-            className="text-3xl sm:text-4xl md:text-5xl font-black text-white"
-            delay={0.1}
-          />
+          <AnimatedText text={t.testimonials.title} as="h2" className="text-3xl sm:text-4xl md:text-5xl font-black text-white" />
         </div>
 
-        {/* Testimonials Carousel */}
         <div className="relative max-w-4xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
@@ -358,33 +320,18 @@ function TestimonialsSection() {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+              transition={{ duration: 0.5 }}
               className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10 text-center relative overflow-hidden"
             >
-              {/* Background glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-50" />
-              
               <div className="relative">
-                {/* Stars */}
                 <div className="flex items-center justify-center gap-1 mb-6">
                   {[...Array(t.testimonials.items[activeIndex].rating)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.1 }}
-                    >
-                      <Star size={20} className="text-amber-400 fill-amber-400" />
-                    </motion.div>
+                    <Star key={i} size={20} className="text-amber-400 fill-amber-400" />
                   ))}
                 </div>
-
-                {/* Quote */}
                 <p className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 italic">
                   "{t.testimonials.items[activeIndex].text}"
                 </p>
-
-                {/* Author */}
                 <div>
                   <p className="text-white font-bold text-lg">{t.testimonials.items[activeIndex].name}</p>
                   <p className="text-amber-400 text-sm">{t.testimonials.items[activeIndex].company}</p>
@@ -393,18 +340,13 @@ function TestimonialsSection() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation Dots */}
           <div className="flex items-center justify-center gap-3 mt-8">
             {t.testimonials.items.map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
                 className={`h-3 rounded-full transition-all duration-300 ${
-                  index === activeIndex
-                    ? 'bg-amber-400 w-8'
-                    : 'bg-gray-600 hover:bg-gray-500 w-3'
+                  index === activeIndex ? 'bg-amber-400 w-8' : 'bg-gray-600 hover:bg-gray-500 w-3'
                 }`}
               />
             ))}
@@ -419,10 +361,8 @@ function TestimonialsSection() {
 // CONTACT SECTION
 // ============================================
 function ContactSection() {
-  const { t, lang } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: '', email: '', phone: '', service: '', message: ''
-  });
+  const { t } = useLanguage();
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -436,115 +376,73 @@ function ContactSection() {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-20">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block"
-          >
+          <motion.span className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4 block">
             {t.contact.subtitle}
           </motion.span>
-          <AnimatedText
-            text={t.contact.title}
-            as="h2"
-            className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6"
-            delay={0.1}
-          />
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-gray-400 text-lg max-w-2xl mx-auto"
-          >
-            {t.contact.description}
-          </motion.p>
+          <AnimatedText text={t.contact.title} as="h2" className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-6" />
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">{t.contact.description}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
+          <motion.form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.input
-                whileFocus={{ scale: 1.01 }}
+              <input
                 type="text"
                 placeholder={t.contact.formName}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none"
                 required
               />
-              <motion.input
-                whileFocus={{ scale: 1.01 }}
+              <input
                 type="email"
                 placeholder={t.contact.formEmail}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none"
                 required
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.input
-                whileFocus={{ scale: 1.01 }}
+              <input
                 type="tel"
                 placeholder={t.contact.formPhone}
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none"
               />
-              <motion.select
-                whileFocus={{ scale: 1.01 }}
+              <select
                 value={formData.service}
                 onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-gray-400 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300"
+                className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-gray-400 focus:border-amber-500/50 focus:outline-none"
               >
                 <option value="" className="bg-gray-900">{t.contact.formService}</option>
                 {t.contact.services.map((service, i) => (
                   <option key={i} value={service} className="bg-gray-900">{service}</option>
                 ))}
-              </motion.select>
+              </select>
             </div>
-            <motion.textarea
-              whileFocus={{ scale: 1.01 }}
+            <textarea
               placeholder={t.contact.formMessage}
               rows={5}
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all duration-300 resize-none"
+              className="w-full px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-amber-500/50 focus:outline-none resize-none"
               required
             />
             <MagneticButton strength={0.3}>
-              <motion.button
+              <button
                 type="submit"
-                whileHover={{ boxShadow: '0 0 30px rgba(245, 158, 11, 0.3)' }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-xl text-lg shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2"
+                className="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-xl text-lg shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 hover:scale-95 transition-transform"
               >
                 <Send size={20} />
                 {t.contact.formSubmit}
-              </motion.button>
+              </button>
             </MagneticButton>
           </motion.form>
 
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
-          >
+          <div className="space-y-8">
             <div className="p-8 rounded-2xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/10">
               <h3 className="text-white font-bold text-xl mb-6">{t.contact.infoTitle}</h3>
               <div className="space-y-5">
@@ -554,15 +452,7 @@ function ContactSection() {
                   { icon: <MapPin size={20} />, label: 'Location', value: t.contact.infoLocation },
                   { icon: <Clock size={20} />, label: 'Hours', value: t.contact.infoHours },
                 ].map((item, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    whileHover={{ x: 5 }}
-                    className="flex items-center gap-4 group"
-                  >
+                  <div key={i} className="flex items-center gap-4 group">
                     <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover:bg-amber-500/20 transition-all duration-300">
                       {item.icon}
                     </div>
@@ -570,16 +460,12 @@ function ContactSection() {
                       <p className="text-gray-400 text-sm">{item.label}</p>
                       <p className="text-white font-medium">{item.value}</p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Map Embed */}
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              className="rounded-2xl overflow-hidden border border-white/10 h-48"
-            >
+            <div className="rounded-2xl overflow-hidden border border-white/10 h-48">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108516.44710659498!2d35.85699675!3d31.9539421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151ca1236b328f3b%3A0x420e285f310c97d0!2sAmman%2C%20Jordan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                 width="100%"
@@ -590,8 +476,8 @@ function ContactSection() {
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Wolf LSK Agency Location"
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -611,24 +497,23 @@ function Footer() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center">
                 <span className="text-black font-black text-lg">W</span>
               </div>
-              <div>
-                <span className="text-white font-bold text-xl">WOLF</span>
-                <span className="text-amber-400 font-bold text-xl"> LSK</span>
+              <div className="flex flex-col">
+                <div>
+                  <span className="text-white font-bold text-xl">WOLF</span>
+                  <span className="text-amber-400 font-bold text-xl"> LSK</span>
+                </div>
+                <span className="text-gray-400 text-xs font-medium uppercase tracking-widest">By Laith</span>
               </div>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              {t.footer.description}
-            </p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">{t.footer.description}</p>
             <p className="text-amber-400 text-sm font-medium">{t.footer.tagline}</p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="text-white font-bold text-lg mb-6">{t.footer.quickLinks}</h4>
             <ul className="space-y-3">
@@ -640,29 +525,23 @@ function Footer() {
                 { href: '#contact', label: t.nav.contact },
               ].map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
-                    {link.label}
-                  </a>
+                  <a href={link.href} className="text-gray-400 hover:text-amber-400 transition-colors text-sm">{link.label}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
           <div>
             <h4 className="text-white font-bold text-lg mb-6">{t.footer.services}</h4>
             <ul className="space-y-3">
               {t.services.items.map((service, i) => (
                 <li key={i}>
-                  <a href="#services" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">
-                    {service.title}
-                  </a>
+                  <a href="#services" className="text-gray-400 hover:text-amber-400 transition-colors text-sm">{service.title}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Social & Contact */}
           <div>
             <h4 className="text-white font-bold text-lg mb-6">{t.footer.followUs}</h4>
             <div className="flex items-center gap-3 mb-6">
@@ -672,11 +551,8 @@ function Footer() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-amber-400 hover:border-amber-500/30 transition-all duration-300"
-                aria-label="Wolf LSK on Instagram"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                </svg>
+                <Instagram size={18} />
               </motion.a>
               <motion.a
                 href="https://wa.me/962782456543"
@@ -685,49 +561,25 @@ function Footer() {
                 whileHover={{ scale: 1.1, y: -2 }}
                 className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-green-400 hover:border-green-500/30 transition-all duration-300"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
+                <MessageCircle size={18} />
               </motion.a>
               <motion.a
-                href="https://www.facebook.com/wolflsk/"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
-                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-blue-400 hover:border-blue-500/30 transition-all duration-300"
-                aria-label="Wolf LSK on Facebook"
+                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-red-400 hover:border-red-500/30 transition-all duration-300"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
+                <Youtube size={18} />
               </motion.a>
-              <motion.a
-                href="https://www.tiktok.com/@wolf_lsk"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -2 }}
-                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/30 transition-all duration-300"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.88 2.89 2.89 0 01-2.88-2.88 2.89 2.89 0 012.88-2.88c.28 0 .56.04.82.11V9.4a6.33 6.33 0 00-.82-.05A6.34 6.34 0 003.15 15.7a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.42a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.85z"/>
-                </svg>
-              </motion.a>
-            </div>
-            <div className="space-y-2 text-sm text-gray-400">
-              <p>{t.contact.infoPhone}</p>
-              <p>{t.contact.infoEmail}</p>
-              <p>{t.contact.infoLocation}</p>
             </div>
           </div>
         </div>
-
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm">{t.footer.rights}</p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-gray-500 hover:text-amber-400 text-sm transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-500 hover:text-amber-400 text-sm transition-colors">Terms of Service</a>
-          </div>
+        
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} WOLF LSK Agency. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
@@ -735,66 +587,54 @@ function Footer() {
 }
 
 // ============================================
-// SCROLL TO TOP BUTTON
+// FLOATING WHATSAPP BUTTON (الزر المتحرك)
 // ============================================
-function ScrollToTop() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const toggleVisibility = () => setIsVisible(window.scrollY > 500);
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
-
+function FloatingWhatsApp() {
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0, rotate: -180 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          exit={{ opacity: 0, scale: 0, rotate: 180 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center shadow-lg shadow-amber-500/30 text-black"
-        >
-          <ArrowUp size={20} />
-        </motion.button>
-      )}
-    </AnimatePresence>
+    <motion.a
+      href="https://wa.me/962782456543"
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      className="fixed bottom-8 right-8 z-[99] bg-gradient-to-br from-green-400 to-green-600 text-white p-4 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.4)] flex items-center justify-center group border border-green-300/30"
+    >
+      <MessageCircle size={32} className="group-hover:animate-bounce" />
+      <span className="absolute -inset-1 rounded-full border border-green-400 animate-ping opacity-30"></span>
+    </motion.a>
   );
 }
 
 // ============================================
-// MAIN APP COMPONENT
+// MAIN APP COMPONENT (التجميع النهائي)
 // ============================================
-function AppContent() {
-  return (
-    <div className="bg-black min-h-screen text-white overflow-x-hidden">
-      <CustomCursor />
-      <Navbar />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <GoogleServices />
-        <SEOServicePackages />
-        <PortfolioFeedback />
-        <ClientLogos />
-        <StrategicPartnership />
-        <TestimonialsSection />
-        <ContactSection />
-      </main>
-      <Footer />
-      <ScrollToTop />
-    </div>
-  );
-}
-
-export default function App() {
+function App() {
   return (
     <LanguageProvider>
-      <AppContent />
+      <div className="bg-black min-h-screen font-sans text-white selection:bg-amber-500/30 relative">
+        <CustomCursor />
+        <Navbar />
+        
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ServicesSection />
+          <GoogleServices />
+          <SEOServicePackages />
+          <PortfolioFeedback />
+          <ClientLogos />
+          <StrategicPartnership />
+          <TestimonialsSection />
+          <ContactSection />
+        </main>
+        
+        <Footer />
+        <FloatingWhatsApp />
+      </div>
     </LanguageProvider>
   );
 }
+
+export default App;
